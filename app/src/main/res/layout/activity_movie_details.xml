@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MovieDetails"
+    android:background="@color/black"
+    >
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MovieDetails">
+
+        <ImageView
+            android:id="@+id/ivMainImage"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/detailsImage"
+            android:scaleType="fitXY"/>
+        <TextView
+            android:id="@+id/tvTitle"
+            style="@style/textView"
+            android:textSize="@dimen/titleText"
+            android:gravity="center"
+            android:padding="@dimen/mainPadding"
+            android:textColor="@color/white" />
+        <TextView
+            android:id="@+id/tvVoteAvg"
+            style="@style/textView"
+            android:textColor="@color/white"
+            android:padding="@dimen/mainPadding"
+            android:textSize="@dimen/secondText"/>
+        <TextView
+            android:id="@+id/tvDes"
+            style="@style/textView"
+            android:textColor="@color/white"
+            android:lineSpacingExtra="@dimen/textSize"
+            />
+        <TextView
+            android:id="@+id/tvReleaseDate"
+            style="@style/textView"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textAppearance="@android:style/TextAppearance.Medium"
+            />
+    </LinearLayout>
+</ScrollView>

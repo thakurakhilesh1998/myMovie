@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="@dimen/subPadding"
-    >
+
 <androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardElevation="@dimen/ele"
+    android:layout_margin="@dimen/mainPadding"
     app:cardCornerRadius="@dimen/radius"
     >
     <LinearLayout
@@ -27,7 +24,7 @@
             android:id="@+id/tvMovie"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Movie Name"
+            android:textStyle="bold"
             android:textSize="@dimen/textSize"
             android:maxLines="1"
             android:paddingLeft="@dimen/left"
@@ -43,4 +40,3 @@
             android:id="@+id/tvPopularity"/>
     </LinearLayout>
 </androidx.cardview.widget.CardView>
-</LinearLayout>

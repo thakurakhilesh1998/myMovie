@@ -1,6 +1,8 @@
 package com.example.mymovie;
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,6 +11,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -40,12 +43,12 @@ public class MainActivity extends AppCompatActivity {
     private static final String ID = "id";
     private static final String BASEURL = "http://api.themoviedb.org/3/movie/popular?";
     private static final String BASE_IMAGE_URL = "http://image.tmdb.org/t/p/w185/";
-    private  String TAG=MainActivity.this.getClass().getSimpleName();
     RecyclerView rvMoviesInGrid;
     MoviesAdapter moviesAdapter;
     ArrayList<MoviesData> moviesData;
     ProgressDialog progressDialog;
     ImageView ivError;
+    private String TAG = MainActivity.this.getClass().getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,11 +60,22 @@ public class MainActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(this);
         GridLayoutManager layoutManager = new GridLayoutManager(this, 2, RecyclerView.VERTICAL, false);
         rvMoviesInGrid.setLayoutManager(layoutManager);
-        MovieAsyncTask movieAsyncTask = new MovieAsyncTask();
-        moviesAdapter = new MoviesAdapter(this, moviesData);
-        rvMoviesInGrid.setAdapter(moviesAdapter);
-        movieAsyncTask.execute(BASEURL);
+        if (isConnectedToInterner()) {
+            MovieAsyncTask movieAsyncTask = new MovieAsyncTask();
+            moviesAdapter = new MoviesAdapter(this, moviesData);
+            rvMoviesInGrid.setAdapter(moviesAdapter);
+            movieAsyncTask.execute(BASEURL);
+        } else {
+            rvMoviesInGrid.setVisibility(View.GONE);
+            TextView tvError = findViewById(R.id.tvError);
+            tvError.setVisibility(View.VISIBLE);
+        }
+    }
 
+    private boolean isConnectedToInterner() {
+
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
     }
 
     @Override
@@ -74,13 +88,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.sort_by_most_popular) {
-            if(moviesData!=null)
-            {
+            if (moviesData != null) {
                 Collections.sort(moviesData);
                 moviesAdapter.notifyDataSetChanged();
-            }
-            else {
-                Toast.makeText(getApplicationContext(),"Data is Loading",Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(getApplicationContext(), "Data is Loading", Toast.LENGTH_LONG).show();
             }
         }
         return super.onOptionsItemSelected(item);

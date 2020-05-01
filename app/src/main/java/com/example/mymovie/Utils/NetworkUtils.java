@@ -13,7 +13,7 @@ import java.net.URL;
 public class NetworkUtils {
 
     private static final String API = "api_key";
-    private static final String API_KEY = "247e995e482deb44deb4808aea5db18e";
+    private static final String API_KEY = "Enter Your Key";
     private static final int CONNECTION_TIMEOUT = 10000;
     private static final int READ_TIMEOUT = 10000;
     private static final String CONN_METHOD = "GET";

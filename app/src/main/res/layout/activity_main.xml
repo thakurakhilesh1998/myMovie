@@ -4,11 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
+    android:orientation="vertical">
 <androidx.recyclerview.widget.RecyclerView
     android:id="@+id/rvMoviesInGrid"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:visibility="gone"
@@ -20,7 +18,8 @@
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
         android:visibility="gone"
-        android:src="@drawable/error_404_page_not_found_icon"/>
+        android:src="@drawable/error_404_page_not_found_icon"
+        android:contentDescription="@string/imageDes" />
     <TextView
         android:id="@+id/tvError"
         android:layout_width="match_parent"

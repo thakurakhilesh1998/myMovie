@@ -4,4 +4,8 @@
     <string name="InternetError">Internet is not working</string>
     <string name="mostpopuar">Sort By Most Popular</string>
     <string name="Popularity">Popularity: </string>
+    <string name="votecount">Vote Average</string>
+    <string name="notAvailabel">Not Available</string>
+    <string name="Release">Releasing On</string>
+    <string name="imageDes">Image Description</string>
 </resources>
