@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="mainPadding">8dp</dimen>
+    <dimen name="subPadding">16dp</dimen>
+    <dimen name="ele">4dp</dimen>
+    <dimen name="radius">4dp</dimen>
+    <dimen name="imageSize">150dp</dimen>
+    <dimen name="textSize">12sp</dimen>
+    <dimen name="error">32sp</dimen>
+    <dimen name="left">4dp</dimen>
+</resources>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/subPadding"
+    >
+<androidx.cardview.widget.CardView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardElevation="@dimen/ele"
+    app:cardCornerRadius="@dimen/radius"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <ImageView
+            android:id="@+id/ivPosterImage"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/imageSize"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_launcher_background"
+            />
+        <TextView
+            android:id="@+id/tvMovie"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Movie Name"
+            android:textSize="@dimen/textSize"
+            android:maxLines="1"
+            android:paddingLeft="@dimen/left"
+            android:paddingBottom="@dimen/mainPadding"
+            android:layout_marginTop="@dimen/subPadding"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Popularity:2000"
+            android:paddingBottom="@dimen/mainPadding"
+            android:textSize="@dimen/textSize"
+            android:paddingLeft="@dimen/left"
+            android:id="@+id/tvPopularity"/>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
+</LinearLayout>

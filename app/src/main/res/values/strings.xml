@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">My Movie</string>
+    <string name="Loading">Loading Data...</string>
+    <string name="InternetError">Internet is not working</string>
+    <string name="mostpopuar">Sort By Most Popular</string>
+    <string name="Popularity">Popularity: </string>
+</resources>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+<androidx.recyclerview.widget.RecyclerView
+    android:id="@+id/rvMoviesInGrid"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:visibility="gone"
+    tools:context=".MainActivity">
+</androidx.recyclerview.widget.RecyclerView>
+    <ImageView
+        android:id="@+id/notFoundImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:visibility="gone"
+        android:src="@drawable/error_404_page_not_found_icon"/>
+    <TextView
+        android:id="@+id/tvError"
+        android:layout_width="match_parent"
+        android:text="@string/InternetError"
+        android:textAppearance="@android:style/TextAppearance.Large"
+        android:gravity="center_horizontal|center_vertical"
+        android:textSize="@dimen/error"
+        android:visibility="gone"
+        android:layout_height="match_parent"/>
+</LinearLayout>
