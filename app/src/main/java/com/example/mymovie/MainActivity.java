@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String VOTE_COUNT = "vote_count";
     private static final String POPULARITY = "popularity";
     private static final String ID = "id";
-    private static final String BASEURL = "http://api.themoviedb.org/3/movie/popular?";
+    private static final String BASEURL = "https://api.themoviedb.org/3/movie/popular?";
     private static final String BASE_IMAGE_URL = "http://image.tmdb.org/t/p/w185/";
     RecyclerView rvMoviesInGrid;
     MoviesAdapter moviesAdapter;
