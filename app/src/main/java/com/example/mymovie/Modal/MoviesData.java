@@ -20,6 +20,8 @@ public class MoviesData implements Comparable, Parcelable {
     String posterUrl;
     String releaseDate;
     String overview;
+
+
     int id;
     double popularity;
     int voteCount;
@@ -45,6 +47,14 @@ public class MoviesData implements Comparable, Parcelable {
         popularity = in.readDouble();
         voteCount = in.readInt();
         voteAverage = in.readDouble();
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getTitle() {

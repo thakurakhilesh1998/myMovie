@@ -9,4 +9,5 @@
     <dimen name="error">32sp</dimen>
     <dimen name="left">4dp</dimen>
     <dimen name="detailsImage">250dp</dimen>
+    <dimen name="divider">1dp</dimen>
 </resources>

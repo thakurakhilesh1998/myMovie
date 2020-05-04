@@ -16,11 +16,14 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mymovie.Modal.MoviesData;
 import com.example.mymovie.Utils.NetworkUtils;
+import com.example.mymovie.databinding.ActivityMainBinding;
+import com.example.mymovie.databinding.ActivityMovieDetailsBinding;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -43,30 +46,29 @@ public class MainActivity extends AppCompatActivity {
     private static final String ID = "id";
     private static final String BASEURL = "https://api.themoviedb.org/3/movie/popular?";
     private static final String BASE_IMAGE_URL = "http://image.tmdb.org/t/p/w185/";
-    RecyclerView rvMoviesInGrid;
+    ActivityMainBinding homeBinding;
     MoviesAdapter moviesAdapter;
     ArrayList<MoviesData> moviesData;
     ProgressDialog progressDialog;
-    ImageView ivError;
     private String TAG = MainActivity.this.getClass().getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        rvMoviesInGrid = findViewById(R.id.rvMoviesInGrid);
-        ivError = findViewById(R.id.notFoundImage);
+
+        homeBinding= DataBindingUtil.setContentView(this,R.layout.activity_main);
         moviesData = new ArrayList<>();
         progressDialog = new ProgressDialog(this);
         GridLayoutManager layoutManager = new GridLayoutManager(this, 2, RecyclerView.VERTICAL, false);
-        rvMoviesInGrid.setLayoutManager(layoutManager);
+        homeBinding.rvMoviesInGrid.setLayoutManager(layoutManager);
         if (isConnectedToInterner()) {
             MovieAsyncTask movieAsyncTask = new MovieAsyncTask();
             moviesAdapter = new MoviesAdapter(this, moviesData);
-            rvMoviesInGrid.setAdapter(moviesAdapter);
+            homeBinding.rvMoviesInGrid.setAdapter(moviesAdapter);
             movieAsyncTask.execute(BASEURL);
         } else {
-            rvMoviesInGrid.setVisibility(View.GONE);
+            homeBinding.rvMoviesInGrid.setVisibility(View.GONE);
             TextView tvError = findViewById(R.id.tvError);
             tvError.setVisibility(View.VISIBLE);
         }
@@ -132,13 +134,14 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(ArrayList<MoviesData> moviesData) {
             super.onPostExecute(moviesData);
             if (moviesData.size() > 0) {
-                rvMoviesInGrid.setVisibility(View.VISIBLE);
+                Toast.makeText(getApplicationContext(),String.valueOf(moviesData.get(0).getId()),Toast.LENGTH_LONG).show();
+                homeBinding.rvMoviesInGrid.setVisibility(View.VISIBLE);
                 moviesAdapter.notifyDataSetChanged();
                 progressDialog.dismiss();
             } else {
                 progressDialog.dismiss();
-                rvMoviesInGrid.setVisibility(View.GONE);
-                ivError.setVisibility(View.VISIBLE);
+                homeBinding.rvMoviesInGrid.setVisibility(View.GONE);
+                homeBinding.notFoundImage.setVisibility(View.VISIBLE);
             }
         }
 
