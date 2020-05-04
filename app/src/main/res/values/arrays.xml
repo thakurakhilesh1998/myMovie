@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+<array name="pref_sort_option">
+    <item>@string/fav</item>
+    <item>@string/popular</item>
+    <item>@string/recent</item>
+</array>
+    <array name="prof_sort_key">
+        <item>@string/fav_key</item>
+        <item>@string/pop_key</item>
+        <item>@string/rec_key</item>
+    </array>
+</resources>

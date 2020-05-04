@@ -3,10 +3,13 @@ package com.example.mymovie;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,8 +29,10 @@ import org.json.JSONObject;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class MovieDetails extends AppCompatActivity {
+public class MovieDetails extends AppCompatActivity implements View.OnClickListener {
     private static final int DEFAULT_VALUE = 0;
+    private final String TAG="Movie Details";
+    private boolean isFavourite=false;
     MoviesData moviesData;
     int position;
     ActivityMovieDetailsBinding mainBinding;
@@ -41,15 +46,13 @@ public class MovieDetails extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_details);
         mainBinding = DataBindingUtil.setContentView(this, R.layout.activity_movie_details);
+        mainBinding.idFavourite.setOnClickListener(this);
         trailers = new ArrayList<>();
         reviews = new ArrayList<>();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
         LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
         mainBinding.rvReviews.setLayoutManager(linearLayoutManager);
         mainBinding.rvTrailers.setLayoutManager(linearLayoutManager1);
-        reviewAdapter = new ReviewAdapter(this, reviews);
-        trailerAdapter = new TrailerAdapter(this, trailers);
-
         Intent intent = getIntent();
         if (intent != null) {
             position = intent.getIntExtra(Constants.POSITION, DEFAULT_VALUE);
@@ -57,11 +60,14 @@ public class MovieDetails extends AppCompatActivity {
             if (b != null) {
                 moviesData = b.getParcelable(Constants.LIST_PARCEL);
             }
-
         }
         getSupportActionBar().setTitle(moviesData.getTitle());
-
-
+        reviewAdapter = new ReviewAdapter(this, reviews);
+        trailerAdapter = new TrailerAdapter(this, trailers, moviesData.getPosterUrl());
+        mainBinding.rvReviews.addItemDecoration(new DividerItemDecoration(mainBinding.rvReviews.getContext(), DividerItemDecoration.VERTICAL));
+        mainBinding.rvTrailers.addItemDecoration(new DividerItemDecoration(mainBinding.rvTrailers.getContext(), DividerItemDecoration.VERTICAL));
+        mainBinding.rvTrailers.setAdapter(trailerAdapter);
+        mainBinding.rvReviews.setAdapter(reviewAdapter);
         updateUI();
         TrailerAndReviewsAsynLoader trailerAndReviewsAsynLoader = new TrailerAndReviewsAsynLoader();
         trailerAndReviewsAsynLoader.execute(String.valueOf(moviesData.getId()));
@@ -85,10 +91,31 @@ public class MovieDetails extends AppCompatActivity {
         mainBinding.tvReleaseDate.setText(getResources().getString(R.string.Release) + ": " + moviesData.getReleaseDate());
     }
 
+    @Override
+    public void onClick(View view) {
+        if(view.getId()==R.id.idFavourite)
+        {
+            saveFavourite();
+        }
+    }
+
+    private void saveFavourite() {
+        if(isFavourite)
+        {
+            isFavourite=false;
+            mainBinding.idFavourite.setBackground(getResources().getDrawable(R.drawable.filled_24dp));
+        }
+        else
+        {
+            isFavourite=true;
+            mainBinding.idFavourite.setBackground(getResources().getDrawable(R.drawable.empty_24dp));
+        }
+    }
+
     class TrailerAndReviewsAsynLoader extends AsyncTask<String, Void, Boolean> {
         private static final String TRAILER_OBJECTS = "videos";
         private static final String TRAILER_OBJECTS_ARRAY = "results";
-        private static final String TRAILER_ID = "id";
+        private static final String TRAILER_ID = "key";
         private static final String TRAILER_NAME = "name";
         private static final String TRAILER_SITE = "site";
         private static final String REVIEWS_OBJECTS = "reviews";
@@ -137,7 +164,6 @@ public class MovieDetails extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
-
         @Override
         protected void onPostExecute(Boolean isData) {
             super.onPostExecute(isData);

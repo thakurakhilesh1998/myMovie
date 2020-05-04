@@ -8,4 +8,21 @@
     <string name="notAvailabel">Not Available</string>
     <string name="Release">Releasing On</string>
     <string name="imageDes">Image Description</string>
+    <string name="Reviews">Reviews</string>
+    <string name="trailer">Trailer</string>
+    <string name="settings">Settings</string>
+
+    <string name="pref_key">SortMovies</string>
+    <string name="sort">Sort Movies By</string>
+
+
+    <string name="fav">Sort By Favourite</string>
+    <string name="popular">Sort By Popular</string>
+    <string name="recent">Sort By Recent</string>
+
+
+    <string name="fav_key">Favourite</string>
+    <string name="pop_key">Popular</string>
+    <string name="rec_key">Recent</string>
+
 </resources>

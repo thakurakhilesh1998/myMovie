@@ -2,6 +2,7 @@ package com.example.mymovie;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -91,8 +92,9 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.sort_by_most_popular) {
             if (moviesData != null) {
-                Collections.sort(moviesData);
-                moviesAdapter.notifyDataSetChanged();
+//                Collections.sort(moviesData);
+//                moviesAdapter.notifyDataSetChanged();
+                startActivity(new Intent(getApplicationContext(),Setting_Activity.class));
             } else {
                 Toast.makeText(getApplicationContext(), "Data is Loading", Toast.LENGTH_LONG).show();
             }

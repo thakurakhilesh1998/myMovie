@@ -1,6 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    >
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:background="@color/black"
+        android:layout_height="wrap_content">
 
+        <de.hdodenhof.circleimageview.CircleImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/ivImage"
+            android:layout_width="@dimen/trailer_image"
+            android:layout_weight="0"
+            android:layout_height="@dimen/trailer_image"
+            android:layout_margin="@dimen/mainPadding"
+            android:layout_gravity="center_vertical"
+            />
+        <TextView
+            android:layout_weight="1"
+            android:id="@+id/tvTrailerTilte"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:layout_gravity="center_vertical"
+            android:padding="@dimen/subPadding"
+            android:textColor="@color/white"
+            />
+        <ImageView
+            android:id="@+id/ivPlay"
+            android:layout_weight="0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_play_arrow_black_24dp"
+            android:layout_marginStart="@dimen/subPadding"
+            android:layout_gravity="center_vertical"/>
+    </LinearLayout>
+    <View
+        android:id="@+id/dividert"
+        style="@style/divider"
+     />
 </LinearLayout>
