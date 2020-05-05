@@ -3,6 +3,10 @@ package com.example.mymovie.Modal;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity(tableName = "moviesdata")
 public class MoviesData implements Comparable, Parcelable {
 
     public static final Creator<MoviesData> CREATOR = new Creator<MoviesData>() {
@@ -20,14 +24,13 @@ public class MoviesData implements Comparable, Parcelable {
     String posterUrl;
     String releaseDate;
     String overview;
-
-
+    String isFavourite;
+    @PrimaryKey
     int id;
     double popularity;
     int voteCount;
     double voteAverage;
-
-    public MoviesData(String title, String posterUrl, String releaseDate, String overview, int id, double popularity, int voteCount, double voteAverage) {
+    public MoviesData(String title, String posterUrl, String releaseDate, String overview, int id, double popularity, int voteCount, double voteAverage, String isFavourite) {
         this.title = title;
         this.posterUrl = posterUrl;
         this.releaseDate = releaseDate;
@@ -36,8 +39,8 @@ public class MoviesData implements Comparable, Parcelable {
         this.popularity = popularity;
         this.voteCount = voteCount;
         this.voteAverage = voteAverage;
+        this.isFavourite = isFavourite;
     }
-
     protected MoviesData(Parcel in) {
         title = in.readString();
         posterUrl = in.readString();
@@ -47,6 +50,15 @@ public class MoviesData implements Comparable, Parcelable {
         popularity = in.readDouble();
         voteCount = in.readInt();
         voteAverage = in.readDouble();
+        isFavourite = in.readString();
+    }
+
+    public String getIsFavourite() {
+        return isFavourite;
+    }
+
+    public void setIsFavourite(String isFavourite) {
+        this.isFavourite = isFavourite;
     }
 
     public int getId() {
@@ -112,5 +124,6 @@ public class MoviesData implements Comparable, Parcelable {
         parcel.writeDouble(popularity);
         parcel.writeInt(voteCount);
         parcel.writeDouble(voteAverage);
+        parcel.writeString(isFavourite);
     }
 }

@@ -10,7 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Setting_Activity"></activity>
+        <activity android:name=".Setting_Activity"
+            android:parentActivityName=".MainActivity"
+            android:launchMode="singleTop"
+            ></activity>
         <activity
             android:name=".MovieDetails"
             android:parentActivityName=".MainActivity"></activity>

@@ -65,6 +65,11 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesHold
         return moviesData.size();
     }
 
+    public void setTasks(ArrayList<MoviesData> moviesData) {
+        this.moviesData = moviesData;
+        notifyDataSetChanged();
+    }
+
     public class MoviesHolder extends RecyclerView.ViewHolder {
         ImageView ivPosterImage;
         TextView tvMainTitle;

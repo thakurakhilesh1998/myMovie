@@ -6,5 +6,6 @@
     android:title="@string/sort"
     android:entries="@array/pref_sort_option"
     android:entryValues="@array/prof_sort_key"
+    android:icon="@drawable/ic_settings_black_24dp"
     ></ListPreference>
 </PreferenceScreen>

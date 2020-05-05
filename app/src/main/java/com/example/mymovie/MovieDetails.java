@@ -1,9 +1,10 @@
 package com.example.mymovie;
 
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -13,6 +14,8 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.mymovie.Database.AppDatabase;
+import com.example.mymovie.Database.AppExecutor;
 import com.example.mymovie.Modal.MoviesData;
 import com.example.mymovie.Modal.Reviews;
 import com.example.mymovie.Modal.Trailers;
@@ -31,8 +34,10 @@ import java.util.ArrayList;
 
 public class MovieDetails extends AppCompatActivity implements View.OnClickListener {
     private static final int DEFAULT_VALUE = 0;
-    private final String TAG="Movie Details";
-    private boolean isFavourite=false;
+    private static final String TRUE = "true";
+    private static final String FALSE = "false";
+    private static final String SEND_DATA_ERROR = "SEND SOME DATA";
+    private final String TAG = "Movie Details";
     MoviesData moviesData;
     int position;
     ActivityMovieDetailsBinding mainBinding;
@@ -40,6 +45,9 @@ public class MovieDetails extends AppCompatActivity implements View.OnClickListe
     ArrayList<Reviews> reviews;
     ReviewAdapter reviewAdapter;
     TrailerAdapter trailerAdapter;
+    AppDatabase appDatabase;
+    MoviesData moviesData2;
+    private boolean isFavourite = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +57,7 @@ public class MovieDetails extends AppCompatActivity implements View.OnClickListe
         mainBinding.idFavourite.setOnClickListener(this);
         trailers = new ArrayList<>();
         reviews = new ArrayList<>();
+        appDatabase = AppDatabase.getInstance(getApplicationContext());
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
         LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
         mainBinding.rvReviews.setLayoutManager(linearLayoutManager);
@@ -60,7 +69,12 @@ public class MovieDetails extends AppCompatActivity implements View.OnClickListe
             if (b != null) {
                 moviesData = b.getParcelable(Constants.LIST_PARCEL);
             }
+        } else {
+            Toast.makeText(getApplicationContext(), SEND_DATA_ERROR, Toast.LENGTH_LONG).show();
+            finish();
         }
+        isCurrentIsFavourite();
+        setFavouriteButton();
         getSupportActionBar().setTitle(moviesData.getTitle());
         reviewAdapter = new ReviewAdapter(this, reviews);
         trailerAdapter = new TrailerAdapter(this, trailers, moviesData.getPosterUrl());
@@ -71,8 +85,37 @@ public class MovieDetails extends AppCompatActivity implements View.OnClickListe
         updateUI();
         TrailerAndReviewsAsynLoader trailerAndReviewsAsynLoader = new TrailerAndReviewsAsynLoader();
         trailerAndReviewsAsynLoader.execute(String.valueOf(moviesData.getId()));
+    }
 
+    private void isCurrentIsFavourite() {
+        AppExecutor.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                final MoviesData mData = appDatabase.taskDao().selectSpecialId(moviesData.getId());
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (mData != null) {
+                            setFavouriteIcon(getResources().getDrawable(R.drawable.filled_24dp));
+                        }
+                    }
+                });
+            }
+        });
+    }
 
+    private void setFavouriteButton() {
+        Resources res = getResources();
+        if (moviesData.getIsFavourite().equals(TRUE)) {
+            setFavouriteIcon(res.getDrawable(R.drawable.filled_24dp));
+        } else if (moviesData.getIsFavourite().equals(FALSE)) {
+            setFavouriteIcon(res.getDrawable(R.drawable.empty_24dp));
+        }
+    }
+
+    private void setFavouriteIcon(Drawable drawable) {
+
+        mainBinding.idFavourite.setBackground(drawable);
     }
 
     private void updateUI() {
@@ -93,22 +136,31 @@ public class MovieDetails extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        if(view.getId()==R.id.idFavourite)
-        {
+        if (view.getId() == R.id.idFavourite) {
             saveFavourite();
         }
     }
 
     private void saveFavourite() {
-        if(isFavourite)
-        {
-            isFavourite=false;
-            mainBinding.idFavourite.setBackground(getResources().getDrawable(R.drawable.filled_24dp));
-        }
-        else
-        {
-            isFavourite=true;
-            mainBinding.idFavourite.setBackground(getResources().getDrawable(R.drawable.empty_24dp));
+        if (isFavourite) {
+            isFavourite = false;
+            setFavouriteIcon(getResources().getDrawable(R.drawable.filled_24dp));
+            moviesData.setIsFavourite(TRUE);
+            AppExecutor.getInstance().diskIO().execute(new Runnable() {
+                @Override
+                public void run() {
+                    appDatabase.taskDao().insertTask(moviesData);
+                }
+            });
+        } else {
+            isFavourite = true;
+            setFavouriteIcon(getResources().getDrawable(R.drawable.empty_24dp));
+            AppExecutor.getInstance().diskIO().execute(new Runnable() {
+                @Override
+                public void run() {
+                    appDatabase.taskDao().deleteTask(moviesData);
+                }
+            });
         }
     }
 
@@ -164,6 +216,7 @@ public class MovieDetails extends AppCompatActivity implements View.OnClickListe
                 e.printStackTrace();
             }
         }
+
         @Override
         protected void onPostExecute(Boolean isData) {
             super.onPostExecute(isData);
@@ -171,7 +224,6 @@ public class MovieDetails extends AppCompatActivity implements View.OnClickListe
                 reviewAdapter.notifyDataSetChanged();
                 trailerAdapter.notifyDataSetChanged();
             } else {
-                Toast.makeText(getApplicationContext(), "Failed to fetch data", Toast.LENGTH_LONG).show();
             }
         }
     }
